@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <canvas id="myChart"></canvas>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+  <script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'line',
+
+      // The data for our dataset
+      data: {
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          datasets: [
+            {
+              label: "My First dataset",
+              backgroundColor: 'rgb(255, 99, 132)',
+              borderColor: 'rgb(0, 255, 0)',
+              data: [30, 25, 20, 15, 10, 5, 0]
+            },
+            {
+              label: "My Second dataset",
+              backgroundColor: 'rbg(30, 60, 90)',
+              borderColor: 'rgb(90, 60, 30)',
+              data: [0, 5, 10, 15, 20, 25, 30]
+            }
+        ]
+      },
+  });
+  </script>
+</head>
+<body>
+<div id="myChart"> </div>
+<p> A simple chart </p>
+
+</body>
+</html>
