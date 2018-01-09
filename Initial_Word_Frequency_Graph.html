@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+
+
+  function getData(){
+    function handleSuccess () {
+      let jsonData = JSON.parse( this.responseText ); // convert data from JSON to a JavaScript object
+      drawGraph(jsonData.map( e => e.word),
+                jsonData.map( e => e.count)
+      );
+    }
+    function handleError () {
+      console.log( 'An error occurred' );
+    }
+    const asyncRequestObject = new XMLHttpRequest();
+    asyncRequestObject.open('GET', 'http://45.77.106.85:8080/rest/v1/videos/wordcounts');
+    asyncRequestObject.onload = handleSuccess;
+    asyncRequestObject.onerror = handleError;
+    asyncRequestObject.send();
+  }
+
+
+  function drawGraph(labels, dataIn){
+    var colGen = () => 'rgba('+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256);
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels ,
+        datasets: [{
+            label: 'Created on',
+            data: dataIn,
+            backgroundColor: colGen() + ', 0.2)',
+            borderColor: colGen() + ', 1)'
+        }]
+    },
+    options: {
+        backgroundColor: 'rgba(255,0,50,0.3)',
+        borderColor: 'rgba(200,0,200,1)',
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:false
+                }
+            }]
+        }
+    }
+});
+  }
+
+window.addEventListener("load", getData);
+
+</script>
+</head>
+<body>
+</body>
+</html>
