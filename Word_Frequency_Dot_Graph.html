@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+<script>
+        var colGen = (opacity) => 'rgba('+ Math.floor(Math.random() * 256) +','
+                + Math.floor(Math.random() * 256)+','+ Math.floor(Math.random() * 256)
+                + ',' + opacity + ')';
+
+        var myChart1;
+        function getData(){
+          function handleSuccess () {
+            let jsonData = JSON.parse( this.responseText ); // convert data from JSON to a JavaScript object
+              var words = jsonData.map( e => e.word);
+              var countsByDateArray = jsonData.map( e => e.countsByDate);
+              console.log(countsByDateArray[0]);
+              function xyObject(date, count) {
+                this.x = date;
+                this.y = count;
+              }
+
+              var xyArray = [];
+              // for(var i=0; i<countsByDateArray.length; i++)
+              // {
+              //   xyArray[i] = new xyObject(countsByDateArray[0][i].date, countsByDateArray[0][i].count);
+              // }
+              var xyArray = countsByDateArray[0].map(e => new xyObject(e.date, e.count));
+              console.log(xyArray[0]);
+              var scatterChartData = {
+                datasets: [{
+                    label: "My First dataset",
+                    borderColor: colGen(1),
+                    backgroundColor: colGen(0.2),
+                    data: xyArray[0]
+                }, {
+                    label: "My Second dataset",
+                    borderColor: colGen(1),
+                    backgroundColor: colGen(0.2),
+                    data: xyArray[1]
+                }]
+            };
+              var ctx = document.getElementById("canvas").getContext("2d");
+              window.myScatter = Chart.Scatter(ctx, {
+                  data: scatterChartData,
+                  options: {
+                      title: {
+                          display: true,
+                          text: 'Chart.js Scatter Chart'
+                      },
+                  }
+              });
+
+          }
+          function handleError () {
+            console.log( 'An error occurred' );
+          }
+          const asyncRequestObject = new XMLHttpRequest();
+          asyncRequestObject.open('GET', 'http://45.77.106.85:8080/rest/v1/videos/wordsbydate');
+          asyncRequestObject.onload = handleSuccess;
+          asyncRequestObject.onerror = handleError;
+          asyncRequestObject.send();
+
+      }
+
+  window.addEventListener("load", getData);
+
+</script>
+</head>
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+</body>
+</html>
