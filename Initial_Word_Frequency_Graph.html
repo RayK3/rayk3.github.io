@@ -22,7 +22,6 @@
     asyncRequestObject.send();
   }
 
-
   function drawGraph(labels, dataIn){
     var colGen = () => 'rgba('+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256) +','+ Math.floor(Math.random() * 256);
     var ctx = document.getElementById("myChart").getContext('2d');
@@ -34,7 +33,8 @@
             label: 'Created on',
             data: dataIn,
             backgroundColor: colGen() + ', 0.2)',
-            borderColor: colGen() + ', 1)'
+            borderColor: colGen() + ', 1)',
+
         }]
     },
     options: {
@@ -46,9 +46,17 @@
                     beginAtZero:false
                 }
             }]
+        },
+        elements: {
+          point: {
+            backgroundColor : "rgb(255,0,0)"
+          }
         }
+
     }
+
 });
+
   }
 
 window.addEventListener("load", getData);

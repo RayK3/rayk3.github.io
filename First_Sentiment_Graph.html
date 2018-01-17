@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sentiment Analysis</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <script>
+
+  var sentimentDataArr = [
+    {
+        "id": "9dcc027e-d881-49b4-a494-6a5de72792c5",
+        "text": "So thanks God it's Friday .",
+        "created": 1515172437,
+        "processed": true,
+        "sentiment": 2,
+        "sentimentMagnitude": 2,
+        "classificationConfidence": {},
+        "entities": [
+            {
+                "entity": "God",
+                "salience": 1,
+                "sentimentMagnitude": 0.699999988079071,
+                "sentimentScore": 0.699999988079071
+            }
+        ]
+    },
+    {
+        "id": "9dcc027e-d881-49b4-a494-6a5de72792c5",
+        "text": "I love Fridays.",
+        "created": 1515172437,
+        "processed": true,
+        "sentiment": 1.75,
+        "sentimentMagnitude": 1.75,
+        "classificationConfidence": {},
+        "entities": [
+            {
+                "entity": "God",
+                "salience": 1,
+                "sentimentMagnitude": 0.699999988079071,
+                "sentimentScore": 0.699999988079071
+            }
+        ]
+    },
+    {
+        "id": "9dcc027e-d881-49b4-a494-6a5de72792c5",
+        "text": "I can't wait for the weekend",
+        "created": 1515172437,
+        "processed": true,
+        "sentiment": 1.5,
+        "sentimentMagnitude": 1.5,
+        "classificationConfidence": {},
+        "entities": [
+            {
+                "entity": "God",
+                "salience": 1,
+                "sentimentMagnitude": 0.699999988079071,
+                "sentimentScore": 0.699999988079071
+            }
+        ]
+    },
+    {
+        "id": "9dcc027e-d881-49b4-a494-6a5de72792c5",
+        "text": "Today is the day after Thursday.",
+        "created": 1515172437,
+        "processed": true,
+        "sentiment": 1.25,
+        "sentimentMagnitude": 1.25,
+        "classificationConfidence": {},
+        "entities": [
+            {
+                "entity": "God",
+                "salience": 1,
+                "sentimentMagnitude": 0.699999988079071,
+                "sentimentScore": 0.699999988079071
+            }
+        ]
+    },
+    {
+        "id": "9dcc027e-d881-49b4-a494-6a5de72792c5",
+        "text": "Tomorrow is Saturday!",
+        "created": 1515172437,
+        "processed": true,
+        "sentiment": 1,
+        "sentimentMagnitude": 1,
+        "classificationConfidence": {},
+        "entities": [
+            {
+                "entity": "God",
+                "salience": 1,
+                "sentimentMagnitude": 0.699999988079071,
+                "sentimentScore": 0.699999988079071
+            }
+        ]
+    }
+];
+
+
+
+    function redGreenCalc(sentiment, opacity) {
+      //green content
+      var green = Math.floor(((sentiment+2) / 4) * 256);
+      //red content
+      if(sentiment === 2)
+        var red = 0;
+      else
+        var red = Math.floor(((sentiment-2) / -4) * 256);
+      //blue content
+      if(sentiment <= 0)
+        var blue = Math.floor(((sentiment+2) / 2) * 50);
+      else
+        var blue = Math.floor(((sentiment-2) / -2) * 127);
+
+      return 'rgba(' + red +', ' + green + ', '+ blue + ', '+ opacity + ')';
+    };
+
+    function createGraphCanvas() {
+      var sentiments = sentimentDataArr.map(e => e.sentiment);
+      var firstFewWords = sentimentDataArr.map(e => e.text);
+      var sentimentBackgroundCol = sentiments.map(e => redGreenCalc(e, 1));
+
+      function graph(sentiments, firstFewWords, sentimentBackgroundCol) {
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+          // The type of chart we want to create
+          type: 'bar',
+
+          // The data for our dataset
+          data: {
+              labels: firstFewWords,
+              datasets: [{
+                  label: "My First dataset",
+
+                  backgroundColor: sentimentBackgroundCol,
+                  data: sentiments,
+              }]
+          },
+
+          // Configuration options go here
+          options: {
+            events: ['click']
+          }
+        });
+      };
+      graph(sentiments, firstFewWords, sentimentBackgroundCol);
+    };
+
+    window.addEventListener('load', createGraphCanvas);
+  </script>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+</body>
+</html>
