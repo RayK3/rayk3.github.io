@@ -136,7 +136,10 @@
 
           // Configuration options go here
           options: {
-            events: ['click']
+            events: ['click'],
+            onClick: function(e, legendItem) {
+              alert('hello');
+            }
           }
         });
       };
@@ -144,6 +147,8 @@
     };
 
     window.addEventListener('load', createGraphCanvas);
+
+
   </script>
 </head>
 <body>

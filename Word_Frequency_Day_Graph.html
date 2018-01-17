@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+<script>
+
+  var myChart1;
+  function getData(){
+    function handleSuccess () {
+      let jsonData = JSON.parse( this.responseText ); // convert data from JSON to a JavaScript object
+
+      drawGraph(myChart,"myChart",jsonData[100].countsByDate.map( e => new Date(e.date * 1000).toDateString()),
+                jsonData[100].countsByDate.map( e => e.count),jsonData[100].word);
+    }
+    function handleError () {
+      console.log( 'An error occurred' );
+    }
+    const asyncRequestObject = new XMLHttpRequest();
+    asyncRequestObject.open('GET', 'http://45.77.106.85:8080/rest/v1/videos/wordsbydate');
+    asyncRequestObject.onload = handleSuccess;
+    asyncRequestObject.onerror = handleError;
+    asyncRequestObject.send();
+  }
+
+  function drawGraph(chart, chartId, labels, dataIn, title){
+    var colGen = (opacity) => 'rgba('+ Math.floor(Math.random() * 256) +','
+            + Math.floor(Math.random() * 256)+','+ Math.floor(Math.random() * 256)
+            + ',' + opacity + ')';
+    var ctx = document.getElementById(chartId).getContext('2d');
+    chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: labels ,
+        datasets: [{
+            label: title,
+            data: dataIn,
+            backgroundColor: colGen(0.2),
+            borderColor: colGen(1),
+
+        }]
+    },
+    options: {
+        backgroundColor: 'rgba(255,0,50,0.3)',
+        borderColor: 'rgba(200,0,200,1)',
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+        elements: {
+          point: {
+            backgroundColor : "rgb(255,0,0)"
+          }
+        }
+
+    }
+
+});
+
+  }
+
+
+window.addEventListener("load", getData);
+
+</script>
+</head>
+<body>
+  <canvas id="myChart" width="400" height="400"></canvas>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<DOCTYPE html>
+<html>
+<head>
+  <title>Practice Webpage</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+  <script>
+    var colGen = (opacity) => 'rgba('+ Math.floor(Math.random() * 256) +','
+            + Math.floor(Math.random() * 256)+','+ Math.floor(Math.random() * 256)
+            + ',' + opacity + ')';
+    const asyncRequestObject = new XMLHttpRequest();
+    asyncRequestObject.open('GET', 'http://45.77.106.85:8080/rest/v1/videos/wordsbydate');
+    asyncRequestObject.onload = handleSuccess;
+    asyncRequestObject.onerror = handleError;
+    asyncRequestObject.send();
+  </script>
+</head>
+<body>
+</body>
