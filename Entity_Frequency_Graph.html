@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <canvas id="myChart" width='500' height='500'></canvas>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.js"></script>
+<script>
+
+var videoText = "Hello hello there, I am Raymond Knorr";
+//convert the text into an array of words, and then filter out the smallest
+var wordArray = videoText.split(' ').filter(word => word.length > 3);
+
+const wordAndCountObject = wordArray.reduce(function(wordObject, word) {
+  word = word.replace(/[^a-zA-Z-]/g, '').toLowerCase();
+  if(!wordObject[word]){
+    wordObject[word] = 0;
+  }
+  wordObject[word]++
+  return wordObject;
+}, {}); //converts the text to an object with the word as a key and the count as a value.
+
+console.log(wordAndCountObject);
+let keys = Object.keys(wordAndCountObject);
+let values = Object.values(wordAndCountObject);
+
+//   function getData(){
+//     function handleSuccess () {
+//       let jsonData = JSON.parse( this.responseText ); // convert data from JSON to a JavaScript object
+//
+//     }
+//     function handleError () {
+//       console.log( 'An error occurred' );
+//     }
+//     const asyncRequestObject = new XMLHttpRequest();
+//     asyncRequestObject.open('GET', 'http://45.77.106.85:8080/rest/v1/videos/wordsbydate');
+//     asyncRequestObject.onload = handleSuccess;
+//     asyncRequestObject.onerror = handleError;
+//     asyncRequestObject.send();
+//   }
+//
+  function drawGraph(labels, dataIn, title){
+    var colGen = (opacity) => 'rgba('+ Math.floor(Math.random() * 256) +','
+            + Math.floor(Math.random() * 256)+','+ Math.floor(Math.random() * 256)
+            + ',' + opacity + ')';
+
+    var chart = document.getElementById('myChart');
+    var ctx = chart.getContext('2d');
+
+    var backgroundGradient = ctx.createLinearGradient(0, 0, 0, 782);
+    backgroundGradient.addColorStop(0, 'rgb(255,0,0)');
+    backgroundGradient.addColorStop(1, 'rgb(0,0,255)');
+
+    chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels ,
+        datasets: [{
+            label: title,
+            data: dataIn,
+            backgroundColor: backgroundGradient,
+            borderColor: 'white',
+
+        }]
+    },
+    options: {
+        backgroundColor: 'rgba(255,0,50,0.3)',
+        borderColor: 'rgba(200,0,200,1)',
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        },
+    }
+    }
+  );
+
+  }
+
+
+
+window.addEventListener("load", drawGraph(Object.keys(wordAndCountObject),Object.values(wordAndCountObject),
+                                "Word to Frequency Graph"));
+
+</script>
+
+</head>
+<body>
+
+</body>
+</html>
