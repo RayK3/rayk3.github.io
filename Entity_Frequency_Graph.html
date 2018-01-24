@@ -8,20 +8,42 @@
 
 var videoText = "Hello hello there, I am Raymond Knorr";
 //convert the text into an array of words, and then filter out the smallest
-var wordArray = videoText.split(' ').filter(word => word.length > 3);
+var words = videoText.split(' ').filter(word => word.length > 3);
 
-const wordAndCountObject = wordArray.reduce(function(wordObject, word) {
-  word = word.replace(/[^a-zA-Z-]/g, '').toLowerCase();
-  if(!wordObject[word]){
-    wordObject[word] = 0;
+var index;//index variable to be used by wordArray
+
+const wordAndCount = words.reduce(function(wordArray, word) {
+  word = word.replace(/[^a-zA-Z-]/g, '').toLowerCase();//converts the words to lower case without punctuation
+
+  if(wordArray.length === 0)
+    index = 0;//set the index to zero if the array is empty
+
+
+  var foundIndex;
+  for(var i=0; i<wordArray.length; i++)
+  {
+    if(wordArray[i][0] === word) {
+      foundIndex = i;
+      break;
+    }
   }
-  wordObject[word]++
-  return wordObject;
-}, {}); //converts the text to an object with the word as a key and the count as a value.
 
-console.log(wordAndCountObject);
-let keys = Object.keys(wordAndCountObject);
-let values = Object.values(wordAndCountObject);
+  if(!foundIndex && foundIndex != 0){ //if that word was not found, then it adds that word to the array
+    wordArray[index] = [word, 1];
+    index++;
+  }
+  else {
+    wordArray[foundIndex][1]++;
+  }
+
+  return wordArray;
+}, []); //converts the text to an array of arrays with the word at index 0 and the count at index 1.
+
+console.log(wordAndCount);
+
+var labels = wordAndCount.map(e => e[0]);
+var counts = wordAndCount.map(e => e[1]);
+
 
 //   function getData(){
 //     function handleSuccess () {
@@ -80,7 +102,7 @@ let values = Object.values(wordAndCountObject);
 
 
 
-window.addEventListener("load", drawGraph(Object.keys(wordAndCountObject),Object.values(wordAndCountObject),
+window.addEventListener("load", drawGraph(labels,counts,
                                 "Word to Frequency Graph"));
 
 </script>
