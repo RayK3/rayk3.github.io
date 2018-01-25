@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+</head>
+<body>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+
+//This chart needs an array of values, an array of labels, and an optional array of backgroundColor
+
+var sampleData = [
+  {
+    word: 'hello',
+    count: 5
+  },
+  {
+    word: 'goodbye',
+    count: 10
+  },
+  {
+    word: 'bonjour',
+    count: 8
+  },
+  {
+    word: 'au revoir',
+    count: 12
+  },
+  {
+    word: 'hola',
+    count: 16
+  }
+];
+sampleData.sort((a,b) => {
+    if(a.count > b.count) {
+      return 1;
+    } else {
+      return -1;
+    }
+});
+console.log(sampleData);
+
+var counts = sampleData.map(e => e.count);
+var words = sampleData.map(e => e.word);
+var bgColors = ['rgb(50,150,50)', 'rgb(40,170,40)', 'rgb(25,190,25)', 'rgb(10,200,10)', 'rgb(0,255,0)'];
+
+function makeGraph(data,labels){
+  var ctx = document.getElementById("myChart").getContext('2d');
+  var myChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        datasets: [{
+            data: data,
+            backgroundColor: bgColors
+        }],
+
+      // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: labels
+      },
+
+      options: {
+        cutoutPercentage: 70,
+      }
+  });
+}
+
+window.addEventListener('load', makeGraph(counts, words, bgColors));
+</script>
+</body>
+</html>
