@@ -51,10 +51,10 @@
           })
 
           if(firstCall) {
-            graphs.tempGraph = createGraph(hours, datasets,'temp');
+            graphs.tempGraph = createGraph(hours, tempDatasets,'temp');
           }
           else {
-            graphs.tempGraph.chart.config.data.datasets = datasets;
+            graphs.tempGraph.chart.config.data.datasets = tempDatasets;
             graphs.tempGraph.chart.config.data.datasets.forEach(e => e.backgroundColor = 'rgba(200,100, 0, 0.4)');
             graphs.tempGraph.update();
           }
@@ -72,10 +72,10 @@
           })
 
           if(firstCall) {
-            graphs.humGraph = createGraph(hours, datasets, 'hum');
+            graphs.humGraph = createGraph(hours, humDatasets, 'hum');
           }
           else {
-            graphs.humGraph.chart.config.data.datasets = datasets;
+            graphs.humGraph.chart.config.data.datasets = humDatasets;
             graphs.humGraph.chart.config.data.datasets.forEach(e => e.backgroundColor = 'rgba(200,100, 0, 0.4)');
             graphs.humGraph.update();
           }
@@ -104,10 +104,10 @@
           });
 
           if(firstCall) {
-            graphs.windGraph = createGraph(hours, datasets, 'wind');
+            graphs.windGraph = createGraph(hours, windDatasets, 'wind');
           }
           else {
-            graphs.windGraph.chart.config.data.datasets = datasets;
+            graphs.windGraph.chart.config.data.datasets = windDatasets;
             graphs.windGraph.chart.config.data.datasets.forEach(e => e.backgroundColor = 'rgba(200,100, 0, 0.4)');
             graphs.windGraph.update();
           }
@@ -121,7 +121,7 @@
     };
 
     function graphUpdate() {
-      function update () { return request(false);}
+      function update () { console.log('updating'); return request(false);}
       setTimeout(update, 5000);
     }
 
@@ -226,4 +226,3 @@
 <body>
 
 </html>
-
